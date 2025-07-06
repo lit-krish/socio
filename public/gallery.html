@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SocialConnect - Image Gallery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+        }
+        
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .gallery-section {
+            margin-bottom: 60px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+        }
+        
+        .section-title {
+            font-size: 2em;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #fff;
+        }
+        
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .image-card {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .image-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .image-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        
+        .image-info {
+            padding: 20px;
+        }
+        
+        .image-info h3 {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        .image-info p {
+            opacity: 0.9;
+            font-size: 0.9em;
+        }
+        
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+        
+        .profile-card {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .profile-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .profile-card img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .profile-card h3 {
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+        
+        .profile-card p {
+            opacity: 0.8;
+            font-size: 0.9em;
+        }
+        
+        .launch-btn {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 20px 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .launch-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            padding: 20px;
+        }
+        
+        .modal-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            margin: auto;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .modal img {
+            width: 100%;
+            height: auto;
+            border-radius: 15px;
+        }
+        
+        .close {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🖼️ SocialConnect Gallery</h1>
+            <p>Beautiful images that power your social media platform</p>
+            <a href="http://localhost:3000" class="launch-btn">🚀 Launch Platform</a>
+            <a href="/" class="launch-btn">📱 Back to App</a>
+        </div>
+
+        <div class="gallery-section">
+            <h2 class="section-title">👥 User Profile Pictures</h2>
+            <div class="profile-grid">
+                <div class="profile-card">
+                    <img src="https://images.unsplash.com/photo-1494790108755-2616c96f7e5a?w=400&h=400&fit=crop&crop=face" alt="Alice">
+                    <h3>Alice Wonderland</h3>
+                    <p>🎨 Digital Artist</p>
+                </div>
+                <div class="profile-card">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face" alt="Bob">
+                    <h3>Bob Builder</h3>
+                    <p>💻 Software Engineer</p>
+                </div>
+                <div class="profile-card">
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face" alt="Charlie">
+                    <h3>Charlie Melody</h3>
+                    <p>🎵 Musician</p>
+                </div>
+                <div class="profile-card">
+                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=400&fit=crop&crop=face" alt="Diana">
+                    <h3>Diana Strong</h3>
+                    <p>💪 Fitness Coach</p>
+                </div>
+                <div class="profile-card">
+                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face" alt="Ethan">
+                    <h3>Ethan Explorer</h3>
+                    <p>✈️ Travel Blogger</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-section">
+            <h2 class="section-title">📸 Post Images</h2>
+            <div class="image-grid">
+                <div class="image-card" onclick="openModal('https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=800&h=600&fit=crop')">
+                    <img src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=800&h=600&fit=crop" alt="Digital Art">
+                    <div class="image-info">
+                        <h3>🎨 Digital Artwork</h3>
+                        <p>Alice's latest digital creation with vibrant colors</p>
+                    </div>
+                </div>
+                
+                <div class="image-card" onclick="openModal('https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&h=600&fit=crop')">
+                    <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&h=600&fit=crop" alt="Music Studio">
+                    <div class="image-info">
+                        <h3>🎵 Recording Session</h3>
+                        <p>Charlie's music studio setup for his new track</p>
+                    </div>
+                </div>
+                
+                <div class="image-card" onclick="openModal('https://images.unsplash.com/photo-1571019613914-85e2e3e46e41?w=800&h=600&fit=crop')">
+                    <img src="https://images.unsplash.com/photo-1571019613914-85e2e3e46e41?w=800&h=600&fit=crop" alt="Fitness">
+                    <div class="image-info">
+                        <h3>💪 Fitness Training</h3>
+                        <p>Diana's morning workout session</p>
+                    </div>
+                </div>
+                
+                <div class="image-card" onclick="openModal('https://images.unsplash.com/photo-1537953773345-d172ccf13cf1?w=800&h=600&fit=crop')">
+                    <img src="https://images.unsplash.com/photo-1537953773345-d172ccf13cf1?w=800&h=600&fit=crop" alt="Bali Sunset">
+                    <div class="image-info">
+                        <h3>🌅 Bali Sunset</h3>
+                        <p>Ethan's breathtaking sunset capture in Bali</p>
+                    </div>
+                </div>
+                
+                <div class="image-card" onclick="openModal('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=600&fit=crop')">
+                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=600&fit=crop" alt="Meal Prep">
+                    <div class="image-info">
+                        <h3>🥗 Healthy Meal Prep</h3>
+                        <p>Diana's nutritious meal preparation</p>
+                    </div>
+                </div>
+                
+                <div class="image-card" onclick="openModal('https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=800&h=600&fit=crop')">
+                    <img src="https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=800&h=600&fit=crop" alt="Character Design">
+                    <div class="image-info">
+                        <h3>✨ Character Design</h3>
+                        <p>Alice's character designs for her graphic novel</p>
+                    </div>
+                </div>
+                
+                <div class="image-card" onclick="openModal('https://images.unsplash.com/photo-1547658719-da2b51169166?w=800&h=600&fit=crop')">
+                    <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?w=800&h=600&fit=crop" alt="Tech Setup">
+                    <div class="image-info">
+                        <h3>💻 Tech Setup</h3>
+                        <p>Bob's new productive workspace setup</p>
+                    </div>
+                </div>
+                
+                <div class="image-card" onclick="openModal('https://images.unsplash.com/photo-1511735111819-9a3f7709049c?w=800&h=600&fit=crop')">
+                    <img src="https://images.unsplash.com/photo-1511735111819-9a3f7709049c?w=800&h=600&fit=crop" alt="Music Jam">
+                    <div class="image-info">
+                        <h3>🎸 Music Jam</h3>
+                        <p>Charlie jamming with friends</p>
+                    </div>
+                </div>
+                
+                <div class="image-card" onclick="openModal('https://images.unsplash.com/photo-1555400291-2e467d3a4c8f?w=800&h=600&fit=crop')">
+                    <img src="https://images.unsplash.com/photo-1555400291-2e467d3a4c8f?w=800&h=600&fit=crop" alt="Bali Market">
+                    <div class="image-info">
+                        <h3>🌺 Local Markets</h3>
+                        <p>Ethan exploring colorful Bali markets</p>
+                    </div>
+                </div>
+                
+                <div class="image-card" onclick="openModal('https://images.unsplash.com/photo-1506629905607-cc234cdb62e5?w=800&h=600&fit=crop')">
+                    <img src="https://images.unsplash.com/photo-1506629905607-cc234cdb62e5?w=800&h=600&fit=crop" alt="Beach Yoga">
+                    <div class="image-info">
+                        <h3>🧘‍♀️ Beach Yoga</h3>
+                        <p>Diana's morning yoga by the beach</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 60px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(20px); border-radius: 20px; padding: 40px;">
+            <h2>🌟 Ready to Experience These Beautiful Images?</h2>
+            <p style="font-size: 1.2em; margin: 20px 0; opacity: 0.9;">
+                All these stunning images are integrated into your SocialConnect platform!
+            </p>
+            <a href="http://localhost:3000" class="launch-btn" style="font-size: 1.2em; padding: 20px 40px;">
+                🚀 Launch SocialConnect Now!
+            </a>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <img id="modalImage" src="" alt="Full size image">
+        </div>
+    </div>
+
+    <script>
+        function openModal(imageSrc) {
+            document.getElementById('modalImage').src = imageSrc;
+            document.getElementById('imageModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside the image
+        window.onclick = function(event) {
+            const modal = document.getElementById('imageModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        // Close modal with escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
